@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cataloghi</title>
+
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0b1220" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg0:#070b14; --bg1:#0b1220;
+  --glass: rgba(255,255,255,.06);
+  --glass2: rgba(255,255,255,.12);
+  --stroke: rgba(255,255,255,.16);
+  --stroke2: rgba(255,255,255,.26);
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.70);
+  --muted2: rgba(255,255,255,.55);
+  --shadow: 0 18px 70px rgba(0,0,0,.55);
+  --shadow2: 0 16px 44px rgba(0,0,0,.38);
+  --r: 22px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+
+body{
+  margin:0; min-height:100vh; color:var(--text);
+  font-family: "Manrope", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:
+    radial-gradient(1200px 800px at 20% 10%, rgba(126,70,255,.35), transparent 55%),
+    radial-gradient(900px 600px at 80% 0%, rgba(20,184,166,.22), transparent 55%),
+    radial-gradient(900px 700px at 80% 90%, rgba(59,130,246,.20), transparent 60%),
+    linear-gradient(180deg, var(--bg0), var(--bg1));
+  padding: 24px 14px 42px;
+  display:flex; justify-content:center;
+  overflow-x:hidden;
+}
+
+/* Logo come sfondo elegante (watermark morbido) */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-10%;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(0,0,0,.38), rgba(0,0,0,.62)),
+    url('logo.png') center/560px no-repeat;
+  opacity:.18;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Soft moving light (subtle) */
+body::after{
+  content:"";
+  position:fixed; inset:-30%;
+  background:
+    radial-gradient(600px 420px at 25% 20%, rgba(255,255,255,.10), transparent 60%),
+    radial-gradient(520px 380px at 70% 75%, rgba(255,255,255,.08), transparent 60%);
+  opacity:.25;
+  filter: blur(6px);
+  animation: drift 10s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:0;
+}
+@keyframes drift{
+  from{ transform: translate3d(-10px,-6px,0); }
+  to{ transform: translate3d(10px,6px,0); }
+}
+
+.app{
+  width:min(1020px, 100%);
+  position:relative;
+  z-index:1;
+  animation: pageIn .55s ease both;
+}
+@keyframes pageIn{
+  from{opacity:0; transform: translateY(10px)}
+  to{opacity:1; transform: translateY(0)}
+}
+
+.header{
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 18px 16px 14px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.header::after{
+  content:"";
+  position:absolute; inset:-2px;
+  background: radial-gradient(500px 160px at 50% 0%, rgba(255,255,255,.16), transparent 55%);
+  opacity:.55;
+  pointer-events:none;
+}
+
+.h1{
+  margin:0;
+  font-family: "Fraunces", serif;
+  letter-spacing: 3px;
+  font-size: 36px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color:#7df9ff;
+  animation: neonPulse 3.5s ease-in-out infinite;
+}
+
+@keyframes neonPulse{
+  0%,100%{
+    text-shadow:
+      0 0 6px rgba(125,249,255,.7),
+      0 0 12px rgba(125,249,255,.5),
+      0 0 20px rgba(0,255,255,.35);
+  }
+  50%{
+    text-shadow:
+      0 0 10px rgba(125,249,255,1),
+      0 0 20px rgba(0,255,255,.75),
+      0 0 35px rgba(0,255,255,.55);
+  }
+}
+.h2{
+  margin: 8px 0 14px;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: "Fraunces", serif;
+  letter-spacing: 1px;
+
+  background: linear-gradient(180deg,#ffffff,#e9e3d1,#cfc7a5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow:
+    0 0 6px rgba(255,255,255,.15),
+    0 0 12px rgba(255,255,255,.08);
+}
+
+/* contatti */
+.contact{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 10px 12px;
+  justify-content:center;
+  align-items:center;
+}
+.pill{
+  display:inline-flex; align-items:center; gap: 10px;
+  padding: 11px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
+  color: rgba(255,255,255,.92);
+  text-decoration:none;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-family: "Manrope", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  line-height:1;
+  box-shadow: 0 10px 26px rgba(0,0,0,.25);
+  transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease;
+}
+.pill:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.26);
+  box-shadow: 0 14px 34px rgba(0,0,0,.35);
+}
+.pill:active{ transform: translateY(0) scale(.99); }
+.pill svg{ opacity:.92 }
+.pill .sub{ opacity:.88; font-weight:600; letter-spacing:.2px }
+
+/* griglia */
+.grid{
+  margin-top: 16px;
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  box-shadow: var(--shadow2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 18px;
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+@media (min-width: 660px){
+  .grid{ grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+.card{ text-align:center; }
+
+/* tile premium */
+a.tile{
+  width:100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--r);
+  border: 1px solid var(--stroke);
+  background: linear-gradient(180deg, var(--glass2), var(--glass));
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+  text-decoration:none;
+  position:relative;
+}
+a.tile{
+  width:100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 26px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .22s ease, box-shadow .22s ease;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-decoration:none;
+  position:relative;
+}
+
+a.tile:hover{
+  transform: translateY(-5px);
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+a.tile:active{ transform: translateY(0) scale(.985); }
+
+a.tile::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: radial-gradient(circle at var(--rx, 50%) var(--ry, 50%), rgba(255,255,255,.38), transparent 55%);
+  opacity:0;
+  transform: scale(1.08);
+  transition: opacity .35s ease;
+  pointer-events:none;
+}
+a.tile.ripple::after{ opacity:.18; }
+
+.icon{
+  width: 92%;
+  height: 92%;
+  object-fit: cover;
+  border-radius: 16px;
+  filter: drop-shadow(0 12px 20px rgba(0,0,0,.35));
+  transition: transform .25s ease;
+}
+a.tile:hover .icon{ transform: scale(1.02); }
+
+/* badge PDF */
+.badge{
+  position:absolute;
+  top: 10px;
+  right: 10px;
+  display:inline-flex;
+  align-items:center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(10,16,30,.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 26px rgba(0,0,0,.35);
+  font-size: 11px;
+  letter-spacing: .35px;
+  color: rgba(255,255,255,.88);
+}
+.badge svg{ opacity:.9 }
+
+.label{
+  margin-top: 11px;
+  font-size: 12.5px;
+  font-weight: 700;
+  font-family: "Manrope", Inter, system-ui;
+  color:#ffd6d6;
+  letter-spacing: .35px;
+  padding: 0 6px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  animation: neonBrandSoft 4.5s ease-in-out infinite;
+}
+
+@keyframes neonBrandSoft{
+  0%,100%{
+    text-shadow:
+      0 0 3px rgba(255,77,77,.45),
+      0 0 8px rgba(180,0,0,.25);
+  }
+  50%{
+    text-shadow:
+      0 0 6px rgba(255,77,77,.85),
+      0 0 14px rgba(180,0,0,.45);
+  }
+}
+
+.footer{
+  margin-top: 12px;
+  text-align:center;
+  color: var(--muted2);
+  font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="h1">CATALOGHI</div>
+    <div class="h2">Di Pietro Alessandro</div>
+
+    <div class="contact">
+      <a class="pill" href="mailto:alessandro.menu@libero.it" aria-label="Invia email">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 6h16v12H4V6Z" stroke="white" stroke-width="1.8" opacity=".9"/>
+          <path d="m4 7 8 6 8-6" stroke="white" stroke-width="1.8" opacity=".9" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="sub">alessandro.menu@libero.it</span>
+      </a>
+
+      <a class="pill" href="tel:+393793328378" aria-label="Chiama telefono">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6.5 3.5h2.3c.5 0 .9.3 1 .7l.8 3c.1.4 0 .9-.4 1.1l-1.7 1a12.8 12.8 0 0 0 6 6l1-1.7c.2-.4.7-.5 1.1-.4l3 .8c.4.1.7.5.7 1v2.3c0 .6-.5 1.1-1.1 1.1C11.1 19.4 4.6 12.9 4.6 4.6c0-.6.5-1.1 1.1-1.1Z" stroke="white" stroke-width="1.8" opacity=".9" stroke-linejoin="round"/>
+        </svg>
+        <span class="sub">+39 379 332 8378</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <a class="tile" href="https://drive.google.com/file/d/1xeps4ASXgjHPpGY7KMy1N1060HDFtJKs/view?usp=sharing/preview" target="_blank" rel="noopener">
+        <span class="badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l3 3v15H7V3Z" stroke="white" stroke-width="1.8" opacity=".9" />
+            <path d="M14 3v4h4" stroke="white" stroke-width="1.8" opacity=".9" />
+          </svg>
+          PDF
+        </span>
+        <img class="icon" src="menu.png" alt="Catalogo Menu">
+      </a>
+      <div class="label">CATALOGO MENU</div>
+    </div>
+
+ <div class="card">
+      <a class="tile" href="https://drive.google.com/file/d/1iHgpU1Kv58xLWk9OcmjsH3BQ7JCRmMIr/preview" target="_blank" rel="noopener">
+        <span class="badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l3 3v15H7V3Z" stroke="white" stroke-width="1.8" opacity=".9" />
+            <path d="M14 3v4h4" stroke="white" stroke-width="1.8" opacity=".9" />
+          </svg>
+          PDF
+        </span>
+        <img class="icon" src="colazioni.png" alt="Prime Colazioni">
+      </a>
+      <div class="label">PRIME COLAZIONI</div>
+    </div>
+
+    <div class="card">
+      <a class="tile" href="https://drive.google.com/file/d/1LwfNzulcV_2TbivG2QYaKX5F08d0FQ0V/view?usp=sharing">
+        <span class="badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l3 3v15H7V3Z" stroke="white" stroke-width="1.8" opacity=".9" />
+            <path d="M14 3v4h4" stroke="white" stroke-width="1.8" opacity=".9" />
+          </svg>
+          PDF
+        </span>
+        <img class="icon" src="cucina antica.png" alt="Prime Colazioni">
+      </a>
+      <div class="label">CUCINA ANTICA</div>
+    </div>
+
+ <div class="card">
+      <a class="tile" href="https://drive.google.com/file/d/1M5VlBCKe7yKgsXfL9fPxvWSL5j1dI63J/view?usp=sharing">
+        <span class="badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l3 3v15H7V3Z" stroke="white" stroke-width="1.8" opacity=".9" />
+            <path d="M14 3v4h4" stroke="white" stroke-width="1.8" opacity=".9" />
+          </svg>
+          PDF
+        </span>
+        <img class="icon" src="novita 2026.png" alt="Dal Bello Asolo">
+      </a>
+      <div class="label">NOVITA' 2026</div>
+    </div>
+
+    <div class="card">
+      <a class="tile" href="https://drive.google.com/file/d/11RJMsy-Y3FG32r_7M3cYSSNg_Gnzi_2H/preview" target="_blank" rel="noopener">
+        <span class="badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l3 3v15H7V3Z" stroke="white" stroke-width="1.8" opacity=".9" />
+            <path d="M14 3v4h4" stroke="white" stroke-width="1.8" opacity=".9" />
+          </svg>
+          PDF
+        </span>
+        <img class="icon" src="foma.png" alt="Antica Foma">
+      </a>
+      <div class="label">PROSCIUTTIFICIO ANTICA FOMA</div>
+    </div>
+
+    <div class="card">
+      <a class="tile" href="https://drive.google.com/file/d/1253IkTFv5x7UKX8_djkYYyJxwKlKBD4I/preview" target="_blank" rel="noopener">
+        <span class="badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l3 3v15H7V3Z" stroke="white" stroke-width="1.8" opacity=".9" />
+            <path d="M14 3v4h4" stroke="white" stroke-width="1.8" opacity=".9" />
+          </svg>
+          PDF
+        </span>
+        <img class="icon" src="filiera.png" alt="Filiera del Gusto">
+      </a>
+      <div class="label">FILIERA DEL GUSTO</div>
+    </div>
+
+    <div class="card">
+      <a class="tile" href="https://drive.google.com/file/d/1opRDD748Py-d3zTkUPVJL85lEgnQTAFE/preview" target="_blank" rel="noopener">
+        <span class="badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l3 3v15H7V3Z" stroke="white" stroke-width="1.8" opacity=".9" />
+            <path d="M14 3v4h4" stroke="white" stroke-width="1.8" opacity=".9" />
+          </svg>
+          PDF
+        </span>
+        <img class="icon" src="venosa.png" alt="Cantina di Venosa">
+      </a>
+      <div class="label">CANTINA DI VENOSA</div>
+    </div>
+
+ <div class="card">
+      <a class="tile" href="https://drive.google.com/file/d/1HwcAM8XYP16ipuDzBqxBPoXRszP5JAXT/view?usp=drive_link">
+        <span class="badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l3 3v15H7V3Z" stroke="white" stroke-width="1.8" opacity=".9" />
+            <path d="M14 3v4h4" stroke="white" stroke-width="1.8" opacity=".9" />
+          </svg>
+          PDF
+        </span>
+        <img class="icon" src="essenza garganica.png" alt="Cantina di Venosa">
+      </a>
+      <div class="label">ESSENZA GARGANICA</div>
+    </div>
+
+ <div class="card">
+      <a class="tile" href="https://drive.google.com/file/d/13b6NfCRdYqnNicyA7dVmwR3KP66RQ8Kk/view?usp=drive_link">
+        <span class="badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l3 3v15H7V3Z" stroke="white" stroke-width="1.8" opacity=".9" />
+            <path d="M14 3v4h4" stroke="white" stroke-width="1.8" opacity=".9" />
+          </svg>
+          PDF
+        </span>
+        <img class="icon" src="dalbello.png" alt="Dal Bello Asolo">
+      </a>
+      <div class="label">DAL BELLO ASOLO</div>
+    </div>
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  }
+
+  document.querySelectorAll('a.tile').forEach(a => {
+    a.addEventListener('pointerdown', (e) => {
+      const r = a.getBoundingClientRect();
+      const rx = ((e.clientX - r.left) / r.width) * 100;
+      const ry = ((e.clientY - r.top) / r.height) * 100;
+      a.style.setProperty('--rx', rx + '%');
+      a.style.setProperty('--ry', ry + '%');
+      a.classList.add('ripple');
+      setTimeout(()=>a.classList.remove('ripple'), 350);
+    }, {passive:true});
+  });
+</script>
+</body>
+</html>
