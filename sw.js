@@ -1,4 +1,4 @@
-const CACHE = 'cataloghi-no-login-v8-fonts';
+const CACHE = 'cataloghi-no-login-v9-fonts';
 const ASSETS = [
   './',
   './index.html',
