@@ -450,7 +450,8 @@ a.tile:hover .icon{ transform: scale(1.02); }
       <div class="label">ESSENZA GARGANICA</div>
     </div>
 
-     <div class="card">
+    ```html
+    <div class="card">
       <a class="tile" href="pdf/Fenora.pdf">
         <span class="badge">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -463,23 +464,28 @@ a.tile:hover .icon{ transform: scale(1.02); }
       </a>
       <div class="label">FENORA</div>
     </div>
-    
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-  }
 
-  document.querySelectorAll('a.tile').forEach(a => {
-    a.addEventListener('pointerdown', (e) => {
-      const r = a.getBoundingClientRect();
-      const rx = ((e.clientX - r.left) / r.width) * 100;
-      const ry = ((e.clientY - r.top) / r.height) * 100;
-      a.style.setProperty('--rx', rx + '%');
-      a.style.setProperty('--ry', ry + '%');
-      a.classList.add('ripple');
-      setTimeout(()=>a.classList.remove('ripple'), 350);
-    }, {passive:true});
-  });
-</script>
+  </div> <!-- Chiusura della griglia -->
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+
+    document.querySelectorAll('a.tile').forEach(a => {
+      a.addEventListener('pointerdown', (e) => {
+        const r = a.getBoundingClientRect();
+        const rx = ((e.clientX - r.left) / r.width) * 100;
+        const ry = ((e.clientY - r.top) / r.height) * 100;
+        a.style.setProperty('--rx', rx + '%');
+        a.style.setProperty('--ry', ry + '%');
+        a.classList.add('ripple');
+        setTimeout(() => a.classList.remove('ripple'), 350);
+      }, { passive: true });
+    });
+  </script>
 </body>
 </html>
+```
